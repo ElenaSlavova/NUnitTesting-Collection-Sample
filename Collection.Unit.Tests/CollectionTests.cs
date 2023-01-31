@@ -1,5 +1,6 @@
 using Collections;
 using NUnit.Framework.Constraints;
+using System;
 
 namespace Collection.Unit.Tests
 {
@@ -92,7 +93,7 @@ namespace Collection.Unit.Tests
             Assert.That(collection.Capacity, Is.GreaterThanOrEqualTo(collection.Count));
         }
         [Test]
-        public void Test_Collection_AddeWithGrow()
+        public void Test_Collection_AddWithGrow()
         {
             var collection = new Collection<int>(1, 2, 3);
             collection.Add(4);
@@ -119,7 +120,7 @@ namespace Collection.Unit.Tests
         public void Test_Collection_InsertAtMiddle()
         {
             var collection = new Collection<int>(1, 2, 3, 4, 5, 6);
-            var middle = (collection.Count / 2);
+            var middle = collection.Count / 2;
             collection.InsertAt(middle, 20);
             Assert.AreEqual(20, collection[middle]);
         }
@@ -204,7 +205,10 @@ namespace Collection.Unit.Tests
         public void Test_Collection_RemoveAtInvalidIndex()
         {
             var collection = new Collection<string>("Ivan", "Peter");
+            var index = -3;
+            var exceptionMsg = Assert.Throws<ArgumentOutOfRangeException>(() => collection.RemoveAt(index));
             Assert.That(() => { collection.RemoveAt(-3); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(exceptionMsg.Message, Is.EqualTo($"Parameter should be in the range [0...{collection.Count - 1}] (Parameter 'index')\r\nActual value was {index}."));
         }
         [Test]
         public void Test_Collection_RemoveAll()
