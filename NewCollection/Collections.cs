@@ -11,7 +11,7 @@ namespace Collections
         public int Count { get; private set; }
 
         public Collection(params T[] items)
-        {
+            {
             int capacity = Math.Max(2 * items.Length, InitialCapacity);
             this.items = new T[capacity];
             for (int i = 0; i < items.Length; i++)
